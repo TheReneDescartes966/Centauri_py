@@ -1,0 +1,129 @@
+import pygame
+import sys
+
+# Inicializar Pygame
+pygame.init()
+
+# Configuración de la ventana
+width, height = 800, 300
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Cabina de Entrada de Datos")
+
+# Colores
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Fuentes
+font = pygame.font.Font(None, 36)
+
+# Entradas de texto
+input_boxX = pygame.Rect(50, 100, 90, 50) 
+input_boxY = pygame.Rect(170, 100, 90, 50) 
+input_boxZ = pygame.Rect(290, 100, 90, 50) 
+
+textX = ""
+textY = ""
+textZ = ""
+color_active = pygame.Color('lightskyblue3')
+color_inactive = pygame.Color('dodgerblue2')
+color = color_inactive
+activeX = False
+activeY = False
+activeZ = False
+
+
+# Botón
+button = pygame.Rect(400, 100, 90, 50)
+button_color = pygame.Color('forestgreen')
+
+# Bucle principal
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if input_boxX.collidepoint(event.pos):
+                activeX = True
+                activeY = False
+                activeZ = False
+
+            elif input_boxY.collidepoint(event.pos):
+                activeX = False
+                activeY = True
+                activeZ = False
+            
+            elif input_boxZ.collidepoint(event.pos):
+                activeX = False
+                activeY = False
+                activeZ = True
+
+            else:
+                active = False
+            colorX = color_active if active else color_inactive
+            colorY = color_active if active else color_inactive
+            colorZ{} = color_active if active else color_inactive
+
+        if event.type == pygame.KEYDOWN:
+            if active:
+                if event.key == pygame.K_RETURN:
+                    # Aquí puedes manejar la entrada de datos, por ejemplo, guardarla en una variable
+                    print(textX)
+                    print(textY)
+                    print(textZ)
+                    textX = ""
+                    textY = ""
+                    textX = ""
+
+                elif event.key == pygame.K_BACKSPACE:
+                    textX = textX[:-1]
+                    textY = textY[:-1]
+                    textZ = textZ[:-1]
+                else:
+                    textX += event.unicode
+                    textY += event.unicode
+                    textZ += event.unicode
+
+    screen.fill(WHITE)
+
+    # Dibuja la caja de entrada X
+    pygame.draw.rect(screen, color, input_boxX, 2)
+    txt_surface = font.render(textX, True, color)
+    width = max(90, txt_surface.get_width()+10)
+    input_boxX.w = width
+    screen.blit(txt_surface, (input_boxX.x+5, input_boxX.y+5))
+
+    # Dibuja la caja de entrada Y
+    pygame.draw.rect(screen, color, input_boxY, 2)
+    txt_surface = font.render(textY, True, color)
+    width = max(90, txt_surface.get_width()+10)
+    input_boxX.w = width
+    screen.blit(txt_surface, (input_boxY.x+5, input_boxY.y+5))
+
+    # Dibuja la caja de entrada Z
+    pygame.draw.rect(screen, color, input_boxZ, 2)
+    txt_surface = font.render(textZ, True, color)
+    width = max(90, txt_surface.get_width()+10)
+    input_boxX.w = width
+    screen.blit(txt_surface, (input_boxZ.x+5, input_boxZ.y+5))
+    
+
+    # Dibuja el botón
+    pygame.draw.rect(screen, button_color, button)
+    button_text = font.render("Enviar", True, WHITE)
+    screen.blit(button_text, (405, 110))
+
+    
+    iconx = font.render("X", True, BLACK)
+    screen.blit(iconx, (85, 160))
+
+    icony = font.render("Y", True, BLACK)
+    screen.blit(icony, (205, 160))
+
+    iconz = font.render("Z", True, BLACK)
+    screen.blit(iconz, (325, 160))
+    pygame.display.flip()
+
+# Finalizar Pygame
+pygame.quit()
+sys.exit()
